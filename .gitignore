@@ -37,3 +37,4 @@ buildNumber.properties
 #intellij
 
 .idea/
+/bin/

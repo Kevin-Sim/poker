@@ -76,7 +76,7 @@ public class PokerGui extends JFrame implements Observer{
 				t.start();								
 			}
 		});
-		btnNewButton.setBounds(118, 460, 97, 25);
+		btnNewButton.setBounds(103, 454, 97, 25);
 		contentPane.add(btnNewButton);
 		
 		msgTextPane = new JTextPane();
@@ -92,16 +92,25 @@ public class PokerGui extends JFrame implements Observer{
 				probabilityChecker.running = false;
 			}
 		});
-		btnNewButton_1.setBounds(118, 498, 97, 25);
+		btnNewButton_1.setBounds(106, 491, 97, 25);
 		contentPane.add(btnNewButton_1);
 		
 		cashTextField = new JTextField();
 		cashTextField.setFont(new Font("Segoe Print", Font.BOLD, 30));
 		cashTextField.setBackground(Color.BLACK);
 		cashTextField.setForeground(Color.YELLOW);
-		cashTextField.setBounds(40, 536, 281, 64);
+		cashTextField.setBounds(45, 604, 281, 64);
 		contentPane.add(cashTextField);
 		cashTextField.setColumns(10);
+		
+		JButton btnNewButton_2 = new JButton("New button");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				probabilityChecker.tries = 0;
+			}
+		});
+		btnNewButton_2.setBounds(113, 537, 97, 25);
+		contentPane.add(btnNewButton_2);
 	}
 
 	public static long lastUpdate = System.currentTimeMillis();
