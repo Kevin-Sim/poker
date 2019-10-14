@@ -9,28 +9,28 @@ import java.util.HashMap;
 public class PokerChecker {
 
 	enum Hand {
-		CONSECUTIVE_ROYAL_FLUSH, ROYAl_FLUSH, STRAIGHT_FLUSH, FOUR_OF_A_KIND, FULL_HOUSE, FLUSH, STRAIGHT, THREE_OF_A_KIND, TWO_PAIRS, ONE_PAIR,
-		HIGH_CARD
+		CONSECUTIVE_ROYAL_FLUSH, ROYAl_FLUSH, STRAIGHT_FLUSH, FOUR_OF_A_KIND, FULL_HOUSE, FLUSH, STRAIGHT, THREE_OF_A_KIND, TWO_PAIRS, ONE_PAIR, HIGH_CARD
 	}
-	static int consecutiveRoyalFlush = 0;
-	static int royalFlush = 0;
-	static int straightFlush = 0;
-	static int fourOfAKind = 0;
-	static int fullHouse = 0;
-	static int flush = 0;
-	static int straight = 0;
-	static int threeOfAKind = 0;
-	static int twoPairs = 0;
-	static int onePair = 0;
-	static int highCard = 0;
+
+	static long consecutiveRoyalFlush = 0;
+	static long royalFlush = 0;
+	static long straightFlush = 0;
+	static long fourOfAKind = 0;
+	static long fullHouse = 0;
+	static long flush = 0;
+	static long straight = 0;
+	static long threeOfAKind = 0;
+	static long twoPairs = 0;
+	static long onePair = 0;
+	static long highCard = 0;
 	static long tries = 0;
 	static Hand lastHand;
-	private static int win = 0;
-	private static int loss = 0;
+	private static long win = 0;
+	private static long loss = 0;
 
 	static void check(ArrayList<Card> hand) {
 		tries++;
-		if(consecutiveRoyalFlush(hand)) {
+		if (consecutiveRoyalFlush(hand)) {
 			return;
 		}
 		if (royalFlush(hand)) {
@@ -394,72 +394,101 @@ public class PokerChecker {
 
 	static String stats() {
 		DecimalFormat formatter = new DecimalFormat("0.0000000000");
+		DecimalFormat formatter2 = new DecimalFormat("#,###");
 		double prob = -1;
+		int oneIn = -1;
 		if (consecutiveRoyalFlush > 0) {
 			prob = consecutiveRoyalFlush / new Double(tries);
+			oneIn = (int) (tries / consecutiveRoyalFlush);
 		}
-		String str = "Consec Royal Flush\t" + consecutiveRoyalFlush + "\t\tProbability " + formatter.format(prob) + "\r\n";
-		
+		String str = "Consec Royal Flush\t" + consecutiveRoyalFlush + "\t\tProbability " + formatter.format(prob)
+				+ " or 1 in " + formatter2.format(oneIn) + "\r\n";
+
 		prob = -1;
+
 		if (royalFlush > 0) {
 			prob = royalFlush / new Double(tries);
+			oneIn = (int) (tries / royalFlush);
 		}
-		str += "Royal Flush\t\t" + royalFlush + "\t\tProbability " + formatter.format(prob) + "\r\n";
+		str += "Royal Flush\t\t" + royalFlush + "\t\tProbability " + formatter.format(prob) + " or 1 in "
+				+ formatter2.format(oneIn) + "\r\n";
 		prob = -1;
 		if (straightFlush > 0) {
-			prob = straightFlush / new Double(tries);;
+			prob = straightFlush / new Double(tries);
+			;
+			oneIn = (int) (tries / straightFlush);
 		}
-		str += "Straight Flush\t\t" + straightFlush + "\t\tProbability " + formatter.format(prob) + "\r\n";
+		str += "Straight Flush\t\t" + straightFlush + "\t\tProbability " + formatter.format(prob) + " or 1 in "
+				+ formatter2.format(oneIn) + "\r\n";
 		prob = -1;
 		if (fourOfAKind > 0) {
-			prob = fourOfAKind / new Double(tries);;
+			prob = fourOfAKind / new Double(tries);
+			oneIn = (int) (tries / fourOfAKind);
 		}
-		str += "Four of a Kind\t\t" + fourOfAKind + "\t\tProbability " + formatter.format(prob) + "\r\n";
+		str += "Four of a Kind\t\t" + fourOfAKind + "\t\tProbability " + formatter.format(prob) + " or 1 in "
+				+ formatter2.format(oneIn) + "\r\n";
 		prob = -1;
 		if (fullHouse > 0) {
-			prob = fullHouse / new Double(tries);;
+			prob = fullHouse / new Double(tries);
+			oneIn = (int) (tries / fullHouse);
 		}
-		str += "Full House\t\t" + fullHouse + "\t\tProbability " + formatter.format(prob) + "\r\n";
+		str += "Full House\t\t" + fullHouse + "\t\tProbability " + formatter.format(prob) + " or 1 in "
+				+ formatter2.format(oneIn) + "\r\n";
 		prob = -1;
 		if (flush > 0) {
-			prob = flush / new Double(tries);;
+			prob = flush / new Double(tries);
+			oneIn = (int) (tries / flush);
 		}
-		str += "Flush\t\t\t" + flush + "\t\tProbability " + formatter.format(prob) + "\r\n";
+		str += "Flush\t\t\t" + flush + "\t\tProbability " + formatter.format(prob) + " or 1 in "
+				+ formatter2.format(oneIn) + "\r\n";
 		prob = -1;
 		if (straight > 0) {
-			prob = straight / new Double(tries);;
+			prob = straight / new Double(tries);
+			oneIn = (int) (tries / straight);
 		}
-		str += "Straight\t\t\t" + straight + "\t\tProbability " + formatter.format(prob) + "\r\n";
+		str += "Straight\t\t\t" + straight + "\t\tProbability " + formatter.format(prob) + " or 1 in "
+				+ formatter2.format(oneIn) + "\r\n";
 		prob = -1;
 		if (threeOfAKind > 0) {
-			prob = threeOfAKind / new Double(tries);;
+			prob = threeOfAKind / new Double(tries);
+			oneIn = (int) (tries / threeOfAKind);
 		}
-		str += "Three of a Kind\t\t" + threeOfAKind + "\t\tProbability " + formatter.format(prob) + "\r\n";
+		str += "Three of a Kind\t\t" + threeOfAKind + "\t\tProbability " + formatter.format(prob) + " or 1 in "
+				+ formatter2.format(oneIn) + "\r\n";
 		prob = -1;
 		if (twoPairs > 0) {
-			prob = twoPairs / new Double(tries);;
+			prob = twoPairs / new Double(tries);
+			oneIn = (int) (tries / twoPairs);
 		}
-		str += "Two Pairs\t\t" + twoPairs + "\t\tProbability " + formatter.format(prob) + "\r\n";
+		str += "Two Pairs\t\t" + twoPairs + "\t\tProbability " + formatter.format(prob) + " or 1 in "
+				+ formatter2.format(oneIn) + "\r\n";
 		prob = -1;
 		if (onePair > 0) {
-			prob = onePair / new Double(tries);;
+			prob = onePair / new Double(tries);
+			oneIn = (int) (tries / onePair);
 		}
-		str += "One Pair\t\t\t" + onePair + "\t\tProbability " + formatter.format(prob) + "\r\n";
+		str += "One Pair\t\t\t" + onePair + "\t\tProbability " + formatter.format(prob) + " or 1 in "
+				+ formatter2.format(oneIn) + "\r\n";
 		prob = -1;
+		double oneInDouble = -1;
 		if (highCard > 0) {
-			prob = highCard / new Double(tries);;
+			prob = highCard / new Double(tries);
+			;
+			oneInDouble = new Double(tries) / highCard;
 		}
-		str += "High Card\t\t" + highCard + "\t\tProbability " + formatter.format(prob) + "\r\n";
-		formatter = new DecimalFormat("#,###");
-		str += "Tries\t\t\t" + formatter.format(tries) + "\r\n";
-		str += "Wins\t\t\t" + formatter.format(win) + "\r\n";
-		str += "Loss\t\t\t" + formatter.format(loss) + "\r\n";
+		formatter = new DecimalFormat("0.00000");
+		str += "High Card\t\t" + highCard + "\t\tProbability " + formatter.format(prob) + " or 1 in " + formatter.format(oneInDouble)
+				+ "\r\n";
+
+		str += "Tries\t\t\t" + formatter2.format(tries) + "\r\n";
+		str += "Wins\t\t\t" + formatter2.format(win) + "\r\n";
+		str += "Loss\t\t\t" + formatter2.format(loss) + "\r\n";
 		str += "last Hand\t\t" + lastHand + "\r\n";
 		return str;
 	}
 
-	static double reward() {
-		double reward = 0;
+	static int reward() {
+		int reward = 0;
 		switch (lastHand) {
 		case CONSECUTIVE_ROYAL_FLUSH:
 			reward = 500000;
@@ -495,9 +524,9 @@ public class PokerChecker {
 		default:
 			break;
 		}
-		if(reward > 0) {
+		if (reward > 0) {
 			win++;
-		}else {
+		} else {
 			loss++;
 		}
 		return reward;

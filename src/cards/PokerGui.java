@@ -51,7 +51,7 @@ public class PokerGui extends JFrame implements Observer{
 	 */
 	public PokerGui() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1400, 781);
+		setBounds(100, 100, 1400, 908);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.BLACK);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -83,7 +83,7 @@ public class PokerGui extends JFrame implements Observer{
 		msgTextPane.setFont(new Font("Tahoma", Font.BOLD, 16));
 		msgTextPane.setBackground(Color.BLACK);
 		msgTextPane.setForeground(Color.GREEN);
-		msgTextPane.setBounds(377, 425, 742, 296);
+		msgTextPane.setBounds(632, 436, 742, 392);
 		contentPane.add(msgTextPane);
 		
 		btnNewButton_1 = new JButton("New button");
@@ -99,18 +99,10 @@ public class PokerGui extends JFrame implements Observer{
 		cashTextField.setFont(new Font("Segoe Print", Font.BOLD, 30));
 		cashTextField.setBackground(Color.BLACK);
 		cashTextField.setForeground(Color.YELLOW);
-		cashTextField.setBounds(45, 604, 281, 64);
+		cashTextField.setBounds(45, 604, 554, 64);
 		contentPane.add(cashTextField);
 		cashTextField.setColumns(10);
 		
-		JButton btnNewButton_2 = new JButton("New button");
-		btnNewButton_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				probabilityChecker.tries = 0;
-			}
-		});
-		btnNewButton_2.setBounds(113, 537, 97, 25);
-		contentPane.add(btnNewButton_2);
 	}
 
 	public static long lastUpdate = System.currentTimeMillis();
@@ -119,7 +111,7 @@ public class PokerGui extends JFrame implements Observer{
 	@Override
 	public void update(Observable o, Object arg) {
 		long time = System.currentTimeMillis();
-		if(time - lastUpdate > 60) {
+		if(time - lastUpdate > 100) {
 			lastUpdate = time;
 		}else {
 			return;
@@ -128,8 +120,11 @@ public class PokerGui extends JFrame implements Observer{
 			cardPanels.get(i).setCard(deck.get(i));
 		}
 		getMsgTextPane().setText(probabilityChecker.msg);
-		DecimalFormat formatter = new DecimalFormat("#,###.00");
+		DecimalFormat formatter = new DecimalFormat("#,###");
 		getCashTextField().setText("£" + formatter.format(probabilityChecker.cash));
+		//getCashTextField().setText("" + PokerChecker.tries);
+		PokerGui.this.invalidate();
+		PokerGui.this.repaint();
 	}
 	
 	public JTextPane getMsgTextPane() {

@@ -10,9 +10,7 @@ import cards.PokerChecker.Hand;
 public class ProbabilityChecker extends Observable implements Runnable{
 
 	boolean running = false;
-	double cash = -1;
-	int tries = 0;
-	int royalFlush = 0;
+	long cash = -1;
 	long seed = System.currentTimeMillis();
 	Random rnd = null;
 	ArrayList<Card> deck = null;
@@ -25,7 +23,7 @@ public class ProbabilityChecker extends Observable implements Runnable{
 	
 	@Override
 	public void run() {
-		cash = Integer.MAX_VALUE;
+		cash = Long.MAX_VALUE / 2;
 		int stake = 1;
 		running = true;
 		while(running) {	
@@ -35,8 +33,9 @@ public class ProbabilityChecker extends Observable implements Runnable{
 			for(int i = 0; i < 5; i++) {
 				hand.add(deck.get(i));
 			}
-			PokerChecker.check(hand);			
-			cash += stake * PokerChecker.reward(); 
+			PokerChecker.check(hand);	
+			int win = stake * PokerChecker.reward();
+			cash += win; 
 			msg = PokerChecker.stats();
 			if(cash <= 0) {
 				running = false;
