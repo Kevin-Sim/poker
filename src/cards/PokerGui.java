@@ -119,7 +119,7 @@ public class PokerGui extends JFrame implements Observer{
 	@Override
 	public void update(Observable o, Object arg) {
 		long time = System.currentTimeMillis();
-		if(time - lastUpdate > 100) {
+		if(time - lastUpdate > 60) {
 			lastUpdate = time;
 		}else {
 			return;

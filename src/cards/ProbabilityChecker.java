@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.Observable;
 import java.util.Random;
 
+import cards.PokerChecker.Hand;
+
 public class ProbabilityChecker extends Observable implements Runnable{
 
 	boolean running = false;
@@ -23,7 +25,7 @@ public class ProbabilityChecker extends Observable implements Runnable{
 	
 	@Override
 	public void run() {
-		cash = 1000000;
+		cash = 10000000;
 		int stake = 1;
 		running = true;
 		while(running) {	
@@ -37,6 +39,10 @@ public class ProbabilityChecker extends Observable implements Runnable{
 			cash += stake * PokerChecker.reward(); 
 			msg = PokerChecker.stats();
 			if(cash <= 0) {
+				running = false;
+				PokerGui.lastUpdate = 0;
+			}
+			if(PokerChecker.lastHand == Hand.CONSECUTIVE_ROYAL_FLUSH) {
 				running = false;
 				PokerGui.lastUpdate = 0;
 			}

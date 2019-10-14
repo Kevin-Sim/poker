@@ -9,10 +9,10 @@ import java.util.HashMap;
 public class PokerChecker {
 
 	enum Hand {
-		ROYAl_FLUSH, STRAIGHT_FLUSH, FOUR_OF_A_KIND, FULL_HOUSE, FLUSH, STRAIGHT, THREE_OF_A_KIND, TWO_PAIRS, ONE_PAIR,
+		CONSECUTIVE_ROYAL_FLUSH, ROYAl_FLUSH, STRAIGHT_FLUSH, FOUR_OF_A_KIND, FULL_HOUSE, FLUSH, STRAIGHT, THREE_OF_A_KIND, TWO_PAIRS, ONE_PAIR,
 		HIGH_CARD
 	}
-
+	static int consecutiveRoyalFlush = 0;
 	static int royalFlush = 0;
 	static int straightFlush = 0;
 	static int fourOfAKind = 0;
@@ -30,6 +30,9 @@ public class PokerChecker {
 
 	static void check(ArrayList<Card> hand) {
 		tries++;
+		if(consecutiveRoyalFlush(hand)) {
+			return;
+		}
 		if (royalFlush(hand)) {
 			return;
 		}
@@ -59,6 +62,42 @@ public class PokerChecker {
 		}
 		highCard++;
 		lastHand = PokerChecker.Hand.HIGH_CARD;
+	}
+
+	private static boolean consecutiveRoyalFlush(ArrayList<Card> hand) {
+		boolean found = true;
+		String suit = null;
+		int lastVal = -1;
+		for (Card card : hand) {
+			if (suit == null) {
+				suit = card.suit;
+			}
+			if (!card.suit.equals(suit)) {
+				found = false;
+				break;
+			}
+			if (lastVal == -1) {
+				lastVal = card.value;
+				if (lastVal != 10) {
+					found = false;
+					break;
+				}
+			} else {
+				if (card.value != lastVal + 1) {
+					found = false;
+					break;
+				} else {
+					lastVal = card.value;
+
+				}
+			}
+		}
+		if (found) {
+			consecutiveRoyalFlush++;
+			lastHand = PokerChecker.Hand.CONSECUTIVE_ROYAL_FLUSH;
+		}
+		return found;
+
 	}
 
 	private static boolean royalFlush(ArrayList<Card> hand) {
@@ -356,10 +395,16 @@ public class PokerChecker {
 	static String stats() {
 		DecimalFormat formatter = new DecimalFormat("0.00000000");
 		double prob = -1;
+		if (consecutiveRoyalFlush > 0) {
+			prob = consecutiveRoyalFlush / new Double(tries);
+		}
+		String str = "Consec Royal Flush\t" + consecutiveRoyalFlush + "\t\tProbability " + formatter.format(prob) + "\r\n";
+		
+		prob = -1;
 		if (royalFlush > 0) {
 			prob = royalFlush / new Double(tries);
 		}
-		String str = "Royal Flush\t\t" + royalFlush + "\t\tProbability " + formatter.format(prob) + "\r\n";
+		str += "Royal Flush\t\t" + royalFlush + "\t\tProbability " + formatter.format(prob) + "\r\n";
 		prob = -1;
 		if (straightFlush > 0) {
 			prob = straightFlush / new Double(tries);;
@@ -405,10 +450,10 @@ public class PokerChecker {
 			prob = highCard / new Double(tries);;
 		}
 		str += "High Card\t\t" + highCard + "\t\tProbability " + formatter.format(prob) + "\r\n";
-		
-		str += "Tries\t\t\t" + tries + "\r\n";
-		str += "Wins\t\t\t" + win + "\r\n";
-		str += "Loss\t\t\t" + loss + "\r\n";
+		formatter = new DecimalFormat("#,###");
+		str += "Tries\t\t\t" + formatter.format(tries) + "\r\n";
+		str += "Wins\t\t\t" + formatter.format(win) + "\r\n";
+		str += "Loss\t\t\t" + formatter.format(loss) + "\r\n";
 		str += "last Hand\t\t" + lastHand + "\r\n";
 		return str;
 	}
@@ -416,14 +461,17 @@ public class PokerChecker {
 	static double reward() {
 		double reward = 0;
 		switch (lastHand) {
+		case CONSECUTIVE_ROYAL_FLUSH:
+			reward = 500000;
+			break;
 		case ROYAl_FLUSH:
-			reward = 1000;
+			reward = 50000;
 			break;
 		case STRAIGHT_FLUSH:
-			reward = 200;
+			reward = 5000;
 			break;
 		case FOUR_OF_A_KIND:
-			reward = 50;
+			reward = 500;
 			break;
 		case FULL_HOUSE:
 			reward = 20;
