@@ -393,7 +393,7 @@ public class PokerChecker {
 	}
 
 	static String stats() {
-		DecimalFormat formatter = new DecimalFormat("0.00000000");
+		DecimalFormat formatter = new DecimalFormat("0.0000000000");
 		double prob = -1;
 		if (consecutiveRoyalFlush > 0) {
 			prob = consecutiveRoyalFlush / new Double(tries);

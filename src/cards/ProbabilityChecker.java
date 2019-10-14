@@ -25,7 +25,7 @@ public class ProbabilityChecker extends Observable implements Runnable{
 	
 	@Override
 	public void run() {
-		cash = 10000000;
+		cash = Integer.MAX_VALUE;
 		int stake = 1;
 		running = true;
 		while(running) {	
@@ -42,10 +42,10 @@ public class ProbabilityChecker extends Observable implements Runnable{
 				running = false;
 				PokerGui.lastUpdate = 0;
 			}
-			if(PokerChecker.lastHand == Hand.CONSECUTIVE_ROYAL_FLUSH) {
-				running = false;
-				PokerGui.lastUpdate = 0;
-			}
+//			if(PokerChecker.lastHand == Hand.CONSECUTIVE_ROYAL_FLUSH) {
+//				running = false;
+//				PokerGui.lastUpdate = 0;
+//			}
 			setChanged();
 			notifyObservers();
 		}
