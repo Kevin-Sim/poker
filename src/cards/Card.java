@@ -19,6 +19,7 @@ public class Card implements Comparable<Card>{
 	int suitValue;
 	String rank;
 	BufferedImage image;
+	static boolean loadCards;
 	static String[] suits = { "Clubs", "Diamonds", "Hearts", "Spades" };
 	static String[] ranks = { "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack",
 			"Queen", "King",  "Ace"};
@@ -41,12 +42,13 @@ public class Card implements Comparable<Card>{
 			filename += value;
 		}
 		filename += "_of_" + suit.toLowerCase() + ".png";
-		
-		try {
-			image = ImageIO.read(new File(filename));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(loadCards) {
+			try {
+				image = ImageIO.read(new File(filename));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}	
 	
@@ -55,6 +57,7 @@ public class Card implements Comparable<Card>{
 	}
 
 	public static ArrayList<Card> getShuffledDeck(Random rnd) {
+		loadCards = true;
 		ArrayList<Card> cards = new ArrayList<>();		
 		for(String suit : suits) {
 			for(String rank : ranks) {
@@ -89,5 +92,10 @@ public class Card implements Comparable<Card>{
 		}
 		//never happens with 1 deck
 		return 0;
+	}
+
+	public static ArrayList<Card> getShuffledDeck(Random rnd, boolean b) {
+		loadCards = false;
+		return getShuffledDeck(rnd);
 	}
 }
